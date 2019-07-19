@@ -19,20 +19,30 @@ class Add extends Component {
     }
 
     add() {
-        const { address, purpose, detail, demand, phone, title , images } = this.state
-        if (address !== '' && purpose !== '' && detail !== '' && demand !== '' && phone !== '' && title !== '') {
-            let push = firebase.database().ref("allProperties/" + purpose).push().key
-            let obj = {
-                address,
-                purpose,
-                detail,
-                demand,
-                phone,
-                title,
-                push
-            }
-            firebase.database().ref("allProperties/" + purpose + "/" + push).set(obj)
+        const { address, purpose, detail, demand, phone, title, images } = this.state
+        images.map((e) => {
+            let storageRef = firebase.storage().ref().child(`userimages/${e.name}`)
+            storageRef.put(e)
+                .then((snapshot) => {
+                    snapshot.ref.getDownloadURL().then((snapUrl) => {
+                        let arr = []
+                        arr.push(snapUrl)
+                        this.setState({ images : arr })
+                    })
+                })
+        })
+        let push = firebase.database().ref("allProperties/" + purpose).push().key
+        let obj = {
+            address,
+            purpose,
+            detail,
+            demand,
+            phone,
+            title,
+            push,
+            images
         }
+        firebase.database().ref("allProperties/" + purpose + "/" + push).set(obj)
     }
 
     more() {
@@ -51,7 +61,7 @@ class Add extends Component {
     render() {
         return (
             <div>
-                <NavBar func="Log Out" hidden={true}  active1="" active="active" />
+                <NavBar func="Log Out" hidden={true} active1="" active="active" />
                 <div className="lates">
                     <h1>Add Property</h1>
                     <div className="options-menu">
@@ -85,7 +95,7 @@ class Add extends Component {
                         <button className="btn-submit" onClick={this.add.bind(this)}>Add</button>
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }

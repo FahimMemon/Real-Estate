@@ -7,16 +7,41 @@ class Delete extends Component {
     constructor() {
         super()
         this.state = {
-            allData: []
+            allData: [],
         }
     }
 
     componentDidMount() {
         firebase.database().ref("allProperties/For Sale").on("value", (data) => {
-            console.log(data.val())
+            let allData = this.state.allData
+            let arr = []
+            arr.push(data.val())
+            allData.push(arr)
+            this.setState({ allData })
         })
     }
 
+    sale() {
+        this.setState({allData: []})
+        firebase.database().ref("allProperties/For Sale").on("value", (data) => {
+            let allData = this.state.allData
+            let arr = []
+            arr.push(data.val())
+            allData.push(arr)
+            this.setState({ allData })
+        })
+    }
+
+    rent() {
+        this.setState({allData: []})
+        firebase.database().ref("allProperties/Rent").on("value", (data) => {
+            let allData = this.state.allData
+            let arr = []
+            arr.push(data.val())
+            allData.push(arr)
+            this.setState({ allData })
+        })
+    }
 
     render() {
         return (
@@ -25,11 +50,13 @@ class Delete extends Component {
                 <div className="lates">
                     <h1>Delete Property</h1>
                     <ul className="nav nav-tabs">
-                        <li className="active"><a href="javascript:void(0)">Sale</a></li>
-                        <li><a href="javascript:void(0)">Rent</a></li>
+                        <li className="active" onClick={this.sale.bind(this)}><a href="javascript:void(0)">Sale</a></li>
+                        <li onClick={this.rent.bind(this)}><a href="javascript:void(0)">Rent</a></li>
                     </ul>
                     {!!this.state.allData.length && this.state.allData.map((e) => {
-                        console.log(e)
+                        return e.map((f) => {
+                            return console.log(f)
+                        })
                     })}
                 </div>
             </div>
