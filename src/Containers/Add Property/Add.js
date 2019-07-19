@@ -20,17 +20,6 @@ class Add extends Component {
 
     add() {
         const { address, purpose, detail, demand, phone, title, images } = this.state
-        images.map((e) => {
-            let storageRef = firebase.storage().ref().child(`userimages/${e.name}`)
-            storageRef.put(e)
-                .then((snapshot) => {
-                    snapshot.ref.getDownloadURL().then((snapUrl) => {
-                        let arr = []
-                        arr.push(snapUrl)
-                        this.setState({ images : arr })
-                    })
-                })
-        })
         let push = firebase.database().ref("allProperties/" + purpose).push().key
         let obj = {
             address,
@@ -54,8 +43,14 @@ class Add extends Component {
     change(e) {
         let images = this.state.images
         let files = e.target.files[0]
-        images.push(files)
-        this.setState({ images })
+        let storageRef = firebase.storage().ref().child(`userimages/${files.name}`)
+        storageRef.put(files)
+            .then((snapshot) => {
+                snapshot.ref.getDownloadURL().then((snapUrl) => {
+                    images.push(snapUrl)
+                    this.setState({ images })
+                })
+            })
     }
 
     render() {
