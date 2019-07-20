@@ -25,10 +25,10 @@ class Delete extends Component {
     }
 
     sale() {
-        this.setState({ active: "active", active1: "", condit: true, allData: [] })
+        this.setState({ allData: [], active: "active", active1: "", condit: true })
         setTimeout(() => {
             firebase.database().ref("allProperties/For Sale").on("child_added", (data) => {
-                let allData = []
+                let allData = this.state.allData
                 let arr = []
                 arr.push(data.val())
                 allData.push(arr)
@@ -38,10 +38,10 @@ class Delete extends Component {
     }
 
     rent() {
-        this.setState({ active: "", active1: "active", condit: true, allData: [] })
+        this.setState({ allData: [], active: "", active1: "active", condit: true })
         setTimeout(() => {
             firebase.database().ref("allProperties/Rent").on("child_added", (data) => {
-                let allData = []
+                let allData = this.state.allData
                 let arr = []
                 arr.push(data.val())
                 allData.push(arr)
@@ -54,53 +54,48 @@ class Delete extends Component {
         return (
             <div>
                 <NavBar func="Log Out" hidden={true} active1="active" active="" />
-                <div className="lates">
+                <div className="delete">
                     <h1>Delete Property</h1>
                     <ul className="nav nav-tabs">
                         <li className={this.state.active} onClick={this.sale.bind(this)}><a href="Javascript:void(0)">Sale</a></li>
                         <li className={this.state.active1} onClick={this.rent.bind(this)}><a href="Javascript:void(0)">Rent</a></li>
                     </ul>
                     {!!this.state.condit && <div className="lds-ring"><div></div><div></div><div></div><div></div></div>}
-                    <div className="main">
+                    <div className="main" >
                         {!!this.state.allData.length && this.state.allData.map((e) => {
-
                             return e.map((f) => {
-                                return <div class="card">
-                                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                                return <div className="card">
+                                    <div id={f.push} className="carousel slide" data-ride="carousel">
+                                        <ol className="carousel-indicators">
+                                            <li data-target={"#" + f.push} data-slide-to="0" className="active"></li>
+                                            <li data-target={"#" + f.push} data-slide-to="1"></li>
+                                            <li data-target={"#" + f.push} data-slide-to="2"></li>
                                         </ol>
-                                        <div class="carousel-inner">
-                                            <div class="item active">
+                                        <div className="carousel-inner">
+                                            <div className="item active">
                                                 <img src={f.images[0]} alt="Los Angeles" style={{ width: "100%" }} />
-                                                <div class="carousel-caption">
-                                                    <h3>Los Angeles</h3>
-                                                </div>
                                             </div>
                                             {f.images.map((e, i) => {
-                                                return i !== 0 && <div class="item">
+                                                return i !== 0 && <div className="item" key={Math.random(36)}>
                                                     <img src={e} alt="Los Angeles" style={{ width: "100%" }} />
-                                                    <div class="carousel-caption">
-                                                        <h3>Los</h3>
-                                                    </div>
                                                 </div>
                                             })}
                                         </div>
-                                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                            <span class="glyphicon glyphicon-chevron-left"></span>
-                                            <span class="sr-only">Previous</span>
+                                        <a className="left carousel-control" href={"#" + f.push} data-slide="prev">
+                                            <span className="glyphicon glyphicon-chevron-left"></span>
+                                            <span className="sr-only">Previous</span>
                                         </a>
-                                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                            <span class="sr-only">Next</span>
+                                        <a className="right carousel-control" href={"#" + f.push} data-slide="next">
+                                            <span className="glyphicon glyphicon-chevron-right"></span>
+                                            <span className="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    <h1>Tailored Jeans</h1>
-                                    <p class="price">$19.99</p>
+                                    <h1><b>{f.title}</b></h1>
+                                    <p className="price"><b>Price: </b>{f.demand}</p>
                                     <p>{f.detail}</p>
-                                    <p><button>Add to Cart</button></p>
+                                    <span></span>
+                                    <p><b>Address: </b>{f.address}</p>
+                                    <p><button>Delete</button></p>
                                 </div>
                             })
                         })}
