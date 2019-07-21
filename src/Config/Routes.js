@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {BrowserRouter as Router , Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from '../Containers/Log In/Login';
 import Add from '../Containers/Add Property/Add';
 import Delete from '../Containers/Delete Property/Delete';

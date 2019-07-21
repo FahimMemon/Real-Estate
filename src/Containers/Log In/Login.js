@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import NavBar from '../../Components/Navbar';
+import swal from 'sweetalert'
 
 class Login extends Component {
 
@@ -25,8 +26,24 @@ class Login extends Component {
         }
     }
 
+    componentDidMount() {
+        let get = localStorage.getItem("isLogin")
+        if (get === "true") {
+            this.props.history.push("/add")
+        }
+    }
+
     signIn() {
-        this.props.history.push('/add')
+        if (this.state.email === "admin" && this.state.password === "admin") {
+            localStorage.setItem("isLogin", "true")
+            this.props.history.push('/add')
+        } else {
+            swal({
+                title: "Error!",
+                text: "Credentials not matched",
+                icon: "error"
+            })
+        }
     }
 
     render() {

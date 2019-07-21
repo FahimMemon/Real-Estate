@@ -1,7 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import firebase from '../Config/Fire'
+import {withRouter} from 'react-router-dom'
 
 class NavBar extends Component {
+
+    logout() {
+        let funcs = this.props.func
+        if (funcs === "Log Out") {
+            firebase.auth().signOut()
+            .then(() => {
+                localStorage.setItem("isLogin" , "false")
+                this.props.history.push("/")
+            })
+        } else {
+            this.props.history.push("/")
+        }
+    }
 
     render() {
         return (
@@ -21,7 +36,7 @@ class NavBar extends Component {
                             <li className={this.props.active1} ><Link to="/delete">Delete</Link></li>
                         </ul>}
                         <ul className="nav navbar-nav navbar-right">
-                            <li><Link to="/">{this.props.func}</Link></li>
+                            <li><a href="Javascript:void(0)" onClick={this.logout.bind(this)}>{this.props.func}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -31,4 +46,4 @@ class NavBar extends Component {
 
 }
 
-export default NavBar;
+export default withRouter(NavBar);
