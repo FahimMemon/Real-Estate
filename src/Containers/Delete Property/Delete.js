@@ -11,16 +11,18 @@ class Delete extends Component {
             condit: false,
             active: "active",
             active1: "",
+            selected: "For Sale"
         }
     }
 
     componentDidMount() {
+        this.setState({ allData: [], active: "active", active1: "", condit: true })
         firebase.database().ref("allProperties/For Sale").on("child_added", (data) => {
             let allData = this.state.allData
             let arr = []
             arr.push(data.val())
             allData.push(arr)
-            this.setState({ allData })
+            this.setState({ allData, condit: false , selected: "For Sale" })
         })
     }
 
@@ -32,7 +34,7 @@ class Delete extends Component {
                 let arr = []
                 arr.push(data.val())
                 allData.push(arr)
-                this.setState({ allData, condit: false })
+                this.setState({ allData, condit: false , selected: "For Sale" })
             })
         }, 3000);
     }
@@ -45,9 +47,15 @@ class Delete extends Component {
                 let arr = []
                 arr.push(data.val())
                 allData.push(arr)
-                this.setState({ allData, condit: false })
+                this.setState({ allData, condit: false , selected: "Rent" })
             })
         }, 3000);
+    }
+
+    delete(e) {
+        firebase.database().ref("allProperties/" + this.state.selected + "/" + e).remove()
+        this.rent()
+        this.sale()
     }
 
     render() {
@@ -64,7 +72,9 @@ class Delete extends Component {
                     <div className="main" >
                         {!!this.state.allData.length && this.state.allData.map((e) => {
                             return e.map((f) => {
-                                return <div className="card">
+                                return <div className="card" key={Math.random()}>
+                                    <h3><b>{f.title}</b></h3>
+                                    <p style={{marginLeft: "10px"}}>{f.address}</p>
                                     <div id={f.push} className="carousel slide" data-ride="carousel">
                                         <ol className="carousel-indicators">
                                             <li data-target={"#" + f.push} data-slide-to="0" className="active"></li>
@@ -90,12 +100,14 @@ class Delete extends Component {
                                             <span className="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    <h1><b>{f.title}</b></h1>
-                                    <p className="price"><b>Price: </b>{f.demand}</p>
-                                    <p>{f.detail}</p>
-                                    <span></span>
-                                    <p><b>Address: </b>{f.address}</p>
-                                    <p><button>Delete</button></p>
+                                    <p className="price">PKR <b style={{ fontSize: "25px" }}>{f.demand}</b></p>
+                                    <hr />
+                                    <h4>Details & Description</h4>
+                                    <p style={{ whiteSpace: "pre-line", marginLeft: "10px" }}>{f.detail}</p>
+                                    <hr />
+                                    <h4>Contact</h4>
+                                    <p style={{marginLeft: "10px"}}>{f.phone}</p>
+                                    <p><button onClick={this.delete.bind(this , f.push)}>Delete</button></p>
                                 </div>
                             })
                         })}

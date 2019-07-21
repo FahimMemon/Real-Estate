@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import NavBar from '../../Components/Navbar';
 import firebase from '../../Config/Fire'
 import './Add.css'
+import swal from 'sweetalert';
 
 class Add extends Component {
     constructor() {
         super()
         this.state = {
             address: '',
-            purpose: '',
+            purpose: 'For Sale',
             detail: '',
             demand: '',
             phone: '',
@@ -20,18 +21,26 @@ class Add extends Component {
 
     add() {
         const { address, purpose, detail, demand, phone, title, images } = this.state
-        let push = firebase.database().ref("allProperties/" + purpose).push().key
-        let obj = {
-            address,
-            purpose,
-            detail,
-            demand,
-            phone,
-            title,
-            push,
-            images
+        if (demand !== '') {
+            let push = firebase.database().ref("allProperties/" + purpose).push().key
+            let obj = {
+                address,
+                purpose,
+                detail,
+                demand,
+                phone,
+                title,
+                push,
+                images
+            }
+            firebase.database().ref("allProperties/" + purpose + "/" + push).set(obj).then(()=>{
+                swal({
+                    title: "Good",
+                    text: "Propert Added Successfully",
+                    icon: "success"
+                })
+            })
         }
-        firebase.database().ref("allProperties/" + purpose + "/" + push).set(obj)
     }
 
     more() {
