@@ -12,7 +12,6 @@ class Add extends Component {
             purpose: 'For Sale',
             detail: '',
             demand: '',
-            phone: '',
             title: '',
             arr: [1],
             images: [],
@@ -20,7 +19,7 @@ class Add extends Component {
     }
 
     add() {
-        const { address, purpose, detail, demand, phone, title, images } = this.state
+        const { address, purpose, detail, demand, title, images } = this.state
         if (demand !== '') {
             let push = firebase.database().ref("allProperties/" + purpose).push().key
             let obj = {
@@ -28,7 +27,6 @@ class Add extends Component {
                 purpose,
                 detail,
                 demand,
-                phone,
                 title,
                 push,
                 images
@@ -36,7 +34,7 @@ class Add extends Component {
             firebase.database().ref("allProperties/" + purpose + "/" + push).set(obj).then(()=>{
                 swal({
                     title: "Good",
-                    text: "Propert Added Successfully",
+                    text: "Property Added Successfully",
                     icon: "success"
                 })
             })
@@ -92,9 +90,6 @@ class Add extends Component {
                         <br />
                         <input type="number" placeholder="Demand" onChange={(e) => this.setState({ demand: e.target.value })} />
                         <label>Enter Demand</label>
-                        <br />
-                        <input type="number" placeholder="Phone Number" onChange={(e) => this.setState({ phone: e.target.value })} />
-                        <label>Enter Phone Number</label>
                         <br />
                         <button className="btn-submit" onClick={this.add.bind(this)}>Add</button>
                     </div>

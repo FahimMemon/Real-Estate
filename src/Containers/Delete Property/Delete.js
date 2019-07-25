@@ -76,18 +76,14 @@ class Delete extends Component {
                                     <h3><b>{f.title}</b></h3>
                                     <p style={{marginLeft: "10px"}}>{f.address}</p>
                                     <div id={f.push} className="carousel slide" data-ride="carousel">
-                                        <ol className="carousel-indicators">
-                                            <li data-target={"#" + f.push} data-slide-to="0" className="active"></li>
-                                            <li data-target={"#" + f.push} data-slide-to="1"></li>
-                                            <li data-target={"#" + f.push} data-slide-to="2"></li>
-                                        </ol>
+                                        
                                         <div className="carousel-inner">
                                             <div className="item active">
-                                                <img src={f.images[0]} alt="Los Angeles" style={{ width: "100%" }} />
+                                                <img src={f.images[0]} alt="Images" style={{ width: "100%" }} />
                                             </div>
                                             {f.images.map((e, i) => {
                                                 return i !== 0 && <div className="item" key={Math.random(36)}>
-                                                    <img src={e} alt="Los Angeles" style={{ width: "100%" }} />
+                                                    <img src={e} alt="Images" style={{ width: "100%" }} />
                                                 </div>
                                             })}
                                         </div>
@@ -104,9 +100,6 @@ class Delete extends Component {
                                     <hr />
                                     <h4>Details & Description</h4>
                                     <p style={{ whiteSpace: "pre-line", marginLeft: "10px" }}>{f.detail}</p>
-                                    <hr />
-                                    <h4>Contact</h4>
-                                    <p style={{marginLeft: "10px"}}>{f.phone}</p>
                                     <p><button onClick={this.delete.bind(this , f.push)}>Delete</button></p>
                                 </div>
                             })
