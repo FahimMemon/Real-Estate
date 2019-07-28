@@ -79,6 +79,7 @@ class Add extends Component {
                         <select onChange={(e) => this.setState({ purpose: e.target.value })} >
                             <option>For Sale</option>
                             <option>Rent</option>
+                            <option>Investment</option>
                         </select>
                         <label>Purpose</label>
                         <br />
