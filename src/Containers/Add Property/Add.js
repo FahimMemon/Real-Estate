@@ -36,7 +36,7 @@ class Add extends Component {
                     title: "Good",
                     text: "Property Added Successfully",
                     icon: "success"
-                })
+                }).then(() => window.location.reload())
             })
         }
     }
