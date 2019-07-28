@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import NavBar from '../../Components/Navbar';
 import firebase from '../../Config/Fire'
+import swal from 'sweetalert';
 import './Delete.css'
 
 class Delete extends Component {
@@ -66,7 +67,13 @@ class Delete extends Component {
     }
 
     delete(e) {
-        firebase.database().ref("allProperties/" + this.state.selected + "/" + e).remove()
+        firebase.database().ref("allProperties/" + this.state.selected + "/" + e).remove().then(() => {
+            swal({
+                title: "Good",
+                text: "Property Deleted Successfully",
+                icon: "warning"
+            }).then(() => window.location.reload())
+        })
     }
 
     render() {
@@ -118,7 +125,7 @@ class Delete extends Component {
                         })}
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
