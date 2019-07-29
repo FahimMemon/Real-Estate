@@ -95,7 +95,6 @@ class Delete extends Component {
                                     <h3><b>{f.title}</b></h3>
                                     <p style={{ marginLeft: "10px" }}>{f.address}</p>
                                     <div id={f.push} className="carousel slide" data-ride="carousel">
-
                                         <div className="carousel-inner">
                                             <div className="item active">
                                                 <img src={f.images[0]} alt="Images" style={{ width: "100%" }} />
@@ -106,14 +105,16 @@ class Delete extends Component {
                                                 </div>
                                             })}
                                         </div>
-                                        <a className="left carousel-control" href={"#" + f.push} data-slide="prev">
-                                            <span className="glyphicon glyphicon-chevron-left"></span>
-                                            <span className="sr-only">Previous</span>
-                                        </a>
-                                        <a className="right carousel-control" href={"#" + f.push} data-slide="next">
-                                            <span className="glyphicon glyphicon-chevron-right"></span>
-                                            <span className="sr-only">Next</span>
-                                        </a>
+                                        {f.images.length > 1 && <>
+                                            <a className="left carousel-control" href={"#" + f.push} data-slide="prev">
+                                                <span className="glyphicon glyphicon-chevron-left"></span>
+                                                <span className="sr-only">Previous</span>
+                                            </a>
+                                            <a className="right carousel-control" href={"#" + f.push} data-slide="next">
+                                                <span className="glyphicon glyphicon-chevron-right"></span>
+                                                <span className="sr-only">Next</span>
+                                            </a>
+                                        </>}
                                     </div>
                                     <p className="price">PKR <b style={{ fontSize: "25px" }}>{f.demand}</b></p>
                                     <hr />
